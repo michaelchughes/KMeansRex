@@ -1,21 +1,28 @@
 ''' KMeansRex.py
   Provides python interface to the KMeansRex C++ library
   
-  Key function is RunKMeans
+  Provides two key functions:
+    RunKMeans : runs kmeans from scratch on provided data matrix X (each row is an iid observation)
+    SampleRowsPlusPlus : runs plusplus sampling on the rows of provided data matrix X
 
-  The function "MyWrapper" provides a more "Pythonic" interface.  It takes only the input "A", and creates "B", fills it, and returns it.
-
-  COMPILE (ANY TERMINAL)
+  Notes
   -------
-  g++ -O3 -DNDEBUG --shared -o libkmeansrex.so KMeansRexCore.cpp -I/home/mhughes/code/eigen/
-  
+  Eigen by default expects the matrices to be fortran formated (column-major ordering).
+  In contrast, Numpy defaults to C-format (row-major ordering)
+  All functions here take care of this under the hood (so end-user doesn't need to worry about alignment)
+  This explains the mysterious line: X=np.asarray(X, order='F')
+  However, we do *return* values that are F-ordered by default. 
+  This should be fine with most code, but just in case wanted to issue a warning.
 '''
-
+import os
 import numpy as np
 from numpy.ctypeslib import ndpointer
 import ctypes
 
-lib = ctypes.cdll.LoadLibrary('./libkmeansrex.so')
+curdir = os.path.split( __file__ )[0]
+parentdir = os.path.split( curdir)[0]
+
+lib = ctypes.cdll.LoadLibrary( os.path.join(parentdir,'libkmeansrex.so') )
 lib.SampleRowsPlusPlus.restype = None
 lib.SampleRowsPlusPlus.argtypes = \
                [ndpointer(ctypes.c_double),
