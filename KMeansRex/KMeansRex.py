@@ -18,11 +18,16 @@ import os
 import numpy as np
 from numpy.ctypeslib import ndpointer
 import ctypes
+import platform
+import warnings
 
 curdir = os.path.split( __file__ )[0]
 parentdir = os.path.split( curdir)[0]
 
-lib = ctypes.cdll.LoadLibrary( os.path.join(parentdir,'libkmeansrex.so') )
+if platform.architecture()[0] == '32bit':
+  lib = ctypes.cdll.LoadLibrary( os.path.join(parentdir,'libkmeansrex.so') )
+else:
+  lib = ctypes.cdll.LoadLibrary( os.path.join(parentdir,'libkmeansrex64.so') )
 lib.SampleRowsPlusPlus.restype = None
 lib.SampleRowsPlusPlus.argtypes = \
                [ndpointer(ctypes.c_double),
@@ -46,7 +51,10 @@ lib.RunKMeans.argtypes = [ndpointer(ctypes.c_double),
 def SampleRowsPlusPlus( X, K, seed=42 ):
   X = np.asarray( X, order='F')
   N,D = X.shape
-
+  Kfeasible = np.minimum(K, N)
+  if Kfeasible < K:
+        showKTooLargeWarning(K, Kfeasible)
+  K = Kfeasible
   Mu = np.zeros( (K,D), order='F' )
   lib.SampleRowsPlusPlus( X, N, D, K, seed, Mu)
   return Mu
@@ -54,8 +62,18 @@ def SampleRowsPlusPlus( X, K, seed=42 ):
 def RunKMeans( X, K, Niter=100, initname='plusplus', seed=42 ):
   X = np.asarray( X, order='F')
   N,D = X.shape
-
+  Kfeasible = np.minimum(K, N)
+  if Kfeasible < K:
+        showKTooLargeWarning(K, Kfeasible)
+  K = Kfeasible
   Mu = np.zeros( (K,D), order='F'  )
   Z  = np.zeros( (N,1), order='F' )
   lib.RunKMeans( X, N, D, K, Niter, seed, initname, Mu, Z)
   return Mu, Z
+
+def showKTooLargeWarning(K, Kfeasible):
+    warnings.warn(
+        "Provided num of clusters K=%d exceeds total possible." % (K) + \
+        " Using K=%d instead." % (Kfeasible),
+        RuntimeWarning)
+

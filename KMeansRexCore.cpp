@@ -113,6 +113,13 @@ void sampleRowsRandom( ExtMat &X, ExtMat &Mu ) {
 void sampleRowsPlusPlus( ExtMat &X, ExtMat &Mu ) {
     int N = X.rows();
     int K = Mu.rows();
+    if (K > N) {
+        // User requested more clusters than we have available.
+        // So, we'll fill only first N rows of Mu
+        // and leave all remaining rows of Mu uninitialized.
+        K = N;
+    }
+
     Vec ChosenIDs = Vec::Ones(K);
     int choice = discrete_rand( ChosenIDs );
     Mu.row(0) = X.row( choice );
@@ -120,7 +127,8 @@ void sampleRowsPlusPlus( ExtMat &X, ExtMat &Mu ) {
     Vec minDist(N);
     Vec curDist(N);
     for (int kk=1; kk<K; kk++) {
-      curDist = ( X.rowwise() - Mu.row(kk-1) ).square().rowwise().sum().sqrt();
+      curDist = (X.rowwise() - Mu.row(kk-1))\
+        .square().rowwise().sum().sqrt();
       if (kk==1) {
         minDist = curDist;
       } else {
@@ -180,6 +188,7 @@ void calc_Mu( ExtMat &X, ExtMat &Mu, ExtMat &Z) {
     Mu.row( (int) Z(nn,0) ) += X.row( nn );
     NperCluster[ (int) Z(nn,0)] += 1;
   }  
+  NperCluster += 1e-100; // avoid division-by-zero
   Mu.colwise() /= NperCluster;
 }
 
