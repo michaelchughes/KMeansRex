@@ -26,7 +26,7 @@ Author:
 *  Mike Hughes (www.michaelchughes.com). Please email all comments/questions to mike <AT> michaelchughes.com
 
 License:
-* This software is released under the Simple Public License 2.0, a permissive, copyleft license.  Please see the LICENSE file for details.
+* This software is released under a BSD 3-clause license. See the LICENSE file for details.
 
 Acknowledgements:
 * The development team at Eigen for a blazingly-fast matrix library
