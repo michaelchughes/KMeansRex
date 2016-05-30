@@ -25,7 +25,7 @@ curdir = os.path.split( __file__ )[0]
 parentdir = os.path.split( curdir)[0]
 
 if platform.architecture()[0] == '32bit':
-  lib = ctypes.cdll.LoadLibrary( os.path.join(parentdir,'libkmeansrex.so') )
+  lib = ctypes.cdll.LoadLibrary( os.path.join(parentdir,'libkmeansrex32.so') )
 else:
   lib = ctypes.cdll.LoadLibrary( os.path.join(parentdir,'libkmeansrex64.so') )
 lib.SampleRowsPlusPlus.restype = None
