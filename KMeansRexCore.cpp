@@ -34,10 +34,10 @@ Author: Mike Hughes (www.michaelchughes.com)
 Date:   2 April 2013
 */
 
-extern "C" {
+/*extern "C" {
   void RunKMeans(double *X_IN,  int N,  int D, int K, int Niter, int seed, char* initname, double *Mu_OUT, double *Z_OUT);
   void SampleRowsPlusPlus(double *X_IN,  int N,  int D, int K, int seed, double *Mu_OUT);
-}
+}*/
 
 #include <iostream>
 #include "mersenneTwister2002.c"
