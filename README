@@ -1,4 +1,3 @@
 * Forked from https://github.com/michaelchughes/KMeansRex
-- Removed python-interface (temporary)
-- Added KMeansRexCoreInterface.h to provide c++ friendly interface to RunKMeans() function (and all those, which were previously extern "C")
+- Moved extern "C" declarations from KMeansRexCore.cpp to KMeansRexCoreInterface.h (should be harmless for python interface)
 - Added very simple Makefile

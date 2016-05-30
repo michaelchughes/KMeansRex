@@ -40,6 +40,7 @@ Date:   2 April 2013
 }*/
 
 #include <iostream>
+#include "KMeansRexCoreInterface.h"
 #include "mersenneTwister2002.c"
 #include "Eigen/Dense"
 
@@ -214,7 +215,6 @@ void run_lloyd( ExtMat &X, ExtMat &Mu, ExtMat &Z, int Niter )  {
 // ===========================  EXTERNALLY CALLABLE FUNCTIONS ======================
 // =================================================================================
 // =================================================================================
-
 
 void RunKMeans(double *X_IN,  int N,  int D, int K, int Niter, \
                int seed, char* initname, double *Mu_OUT, double *Z_OUT) {
