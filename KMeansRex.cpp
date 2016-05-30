@@ -15,6 +15,7 @@ Date:   2 April 2013
 #include <time.h>
 #include "mex.h"
 #include "Eigen/Dense"
+#include "KMeansRex.h"
 #include "KMeansRexCore.h"
 
 using namespace Eigen;
