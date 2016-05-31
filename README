@@ -22,7 +22,8 @@ Python Usage:
 
 Compiling:
 * Build the shared library libkmeansrex.so from KMeansRexCore.cpp [use optim flags for best performance]
-    g++ --shared -o libkmeansrex.so KMeansRexCore.cpp -I/path/to/eigen/ -O3 -DNDEBUG
+    Change your eigen version, or provide a non-default path to eigen in the EIGEN_INCLUDE variable in the Makefile.
+    make
 
 * [Matlab Only] Build the KMeansRex mex executable from source
     mex KMeansRex.cpp ./libkmeansrex.so -I/path/to/eigen
