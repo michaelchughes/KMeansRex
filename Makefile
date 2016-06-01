@@ -1,15 +1,36 @@
+.PHONY: all clean python matlab lib
+
+# Determine architecture (32 or 64 bit)
 ARCH := $(shell getconf LONG_BIT)
 
-#Change eigen version here if needed
+# Find header files for the Eigen matrix library
+# Usually in a standard location like /usr/include/eigen3/
+# Change manually here if needed
 EIGEN_INCLUDE := $(shell pkg-config --cflags eigen3)
 
-#To remove nasty Eigen warnings when compiling with gcc 6
+# Remove nasty Eigen warnings when compiling
 CXX_EIGEN_FLAGS := -Wno-ignored-attributes -Wno-misleading-indentation -Wno-deprecated-declarations
 CXX_FLAGS := -fPIC -shared -O3 -DNDEBUG $(CXX_EIGEN_FLAGS)
 
-LIBNAME := kmeansrex
+CWD = $(shell pwd)
+LIBFILE := $(CWD)/lib/libkmeansrex$(ARCH).so
 
-all:
-	g++ $(CXX_FLAGS) -o lib$(LIBNAME)$(ARCH).so KMeansRexCore.cpp $(EIGEN_INCLUDE)
+all: matlab python
+
+lib: src/KMeansRexCore.cpp
+	# Create lib/ directory, or be silent if already exists
+	mkdir -p lib/
+	# Create shared library LIBFILE
+	g++ $(CXX_FLAGS) $(EIGEN_INCLUDE) src/KMeansRexCore.cpp -o $(LIBFILE)
+
+python: lib
+
+matlab: lib matlab/KMeansRex.cpp
+	mex matlab/KMeansRex.cpp $(LIBFILE) \
+		-outdir matlab/ \
+		$(EIGEN_INCLUDE) \
+		-Isrc/
+
 clean:
-	$(RM) lib$(LIBNAME)$(ARCH).so
+	$(RM) $(LIBFILE)
+	$(RM) matlab/KMeansRex.mex*
