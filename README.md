@@ -78,7 +78,7 @@ Useful flags for eigen to suppress many warnings:
 * -Wno-deprecated-declarations
 
 # Author:      
-Mike Hughes (www.michaelchughes.com). Please email all comments/questions to mike<AT>michaelchughes.com
+Mike Hughes (www.michaelchughes.com). Please email all comments/questions to mike AT michaelchughes.com
 
 # License
 This software is released under a BSD 3-clause license. See the LICENSE file for details.
