@@ -82,5 +82,8 @@ Mike Hughes (www.michaelchughes.com). Please email all comments/questions to mik
 This software is released under a BSD 3-clause license. See the LICENSE file for details.
 
 # Acknowledgements
+Thanks to Alexander Grebenyuk and Kaveh Vakili for many helpful suggestions which improved the organization and usefulness of this code.
+
 Includes the random number generation code provided by Makoto Matsumoto and Takuji Nishimura. Source: http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html.
+
 
