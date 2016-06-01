@@ -2,19 +2,22 @@ KMeansRex : Fast C++ implementation of K-Means using the Eigen matrix template l
 
 This toolbox is meant to be the tyrant lizard king of k-means implementations. It is at least 2x as fast as the native kmeans implementations provided by matlab and scipy. It provides smart modern kmeans++ initialization as a default. Code is fully vectorized using the excellent Eigen matrix template library.
 
-# Contents
+# Repo Contents
 
-matlab/ : matlab MEX source files
-python/ : python package files
+* src/    : C++ source files and header files
+* matlab/ : matlab MEX source files
+* python/ : python package files
 
 # Dependencies
 
 * Eigen Matrix Template Library (http://eigen.tuxfamily.org)
 * Python 2.7 (for python functionality)
+* * Requires numpy and other standard numerical packages.
 * Matlab R2011 or greater (for matlab functionality)
 
 # Python Usage
 
+Assuming your PYTHONPATH includes /path/to/KMeansRex/python/
 ```
   >> import numpy as np
   >> import KMeansRex
@@ -22,10 +25,9 @@ python/ : python package files
   >> Mu, Z = KMeansRex.RunKMeans(X, 3)
 ```
 
-Assumes PYTHONPATH includes /path/to/KMeansRex/python/
-
 # Matlab Usage 
 
+Assuming your current path includes /path/to/KMeansRex/matlab/
 ```
   >> X = rand(1000, 5)
   >> [Mu,Z] = KMeansRex( X, 3 );
