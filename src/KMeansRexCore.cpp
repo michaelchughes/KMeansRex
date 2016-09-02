@@ -171,14 +171,17 @@ double assignClosest( ExtMat &X, ExtMat &Mu, ExtMat &Z, Mat &Dist) {
 
 // ======================================================= Update Locations Mu
 void calc_Mu( ExtMat &X, ExtMat &Mu, ExtMat &Z) {
-    Mu = Mat::Zero(Mu.rows(), Mu.cols());
+    //Mu = Mat::Zero(Mu.rows(), Mu.cols());
+    Mu.fill(0);
     Vec NperCluster = Vec::Zero(Mu.rows());
     for (int nn=0; nn<X.rows(); nn++) {
         Mu.row((int) Z(nn,0)) += X.row(nn);
         NperCluster[(int) Z(nn,0)] += 1;
     }  
     NperCluster += 1e-100; // avoid division-by-zero
-    Mu.colwise() /= NperCluster;
+    for (int k=0; k < Mu.rows(); k++) {
+       Mu.row(k) /= NperCluster(k);
+    }
 }
 
 // ======================================================= Overall Lloyd Alg.
