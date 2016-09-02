@@ -24,10 +24,13 @@ import warnings
 curdir = os.path.split( __file__ )[0]
 parentdir = os.path.split( curdir)[0]
 
-if platform.architecture()[0] == '32bit':
-  lib = ctypes.cdll.LoadLibrary( os.path.join(parentdir,'libkmeansrex.so') )
-else:
-  lib = ctypes.cdll.LoadLibrary( os.path.join(parentdir,'libkmeansrex64.so') )
+lib = ctypes.cdll.LoadLibrary( os.path.join(parentdir,'libkmeansrex.so') )
+
+#if platform.architecture()[0] == '32bit':
+#  lib = ctypes.cdll.LoadLibrary( os.path.join(parentdir,'libkmeansrex.so') )
+#else:
+#  lib = ctypes.cdll.LoadLibrary( os.path.join(parentdir,'libkmeansrex64.so') )
+
 lib.SampleRowsPlusPlus.restype = None
 lib.SampleRowsPlusPlus.argtypes = \
                [ndpointer(ctypes.c_double),
