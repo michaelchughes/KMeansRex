@@ -20,3 +20,4 @@ int discrete_rand( Vec &p );
 
 void init_Mu( ExtMat &X, ExtMat &Mu, char* initname );
 void run_lloyd( ExtMat &X, ExtMat &Mu, ExtMat &Z, int Niter);
+
