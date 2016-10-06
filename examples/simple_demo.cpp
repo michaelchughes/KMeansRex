@@ -1,11 +1,11 @@
 #include <iostream>
 #include "Eigen/Dense"
-#include "KMeansRexCore.cpp"
+#include "KMeansRexCoreInterface.h"
+#include "KMeansRexCore.h"
 
-using namespace Eigen;
-using namespace std;
+using std::cout;
 
-IOFormat CleanFmt(3, 0, " ", "\n", "[", "]");
+Eigen::IOFormat CleanFmt(3, 0, " ", "\n", "[", "]");
 
 int main() {
     int K = 3;
@@ -38,7 +38,7 @@ int main() {
     Eigen::ArrayXXd mu = Eigen::ArrayXXd::Zero(K, n_features);
     Eigen::ArrayXd z = Eigen::ArrayXd::Zero(n_examples_ttl);
 
-    cout << "running kmeans ... \n";
+    cout << "running kmeans with the c interface (double) ... \n";
     RunKMeans(
         data_all.data(),
         n_examples_ttl, n_features, K,
@@ -49,5 +49,24 @@ int main() {
 
     cout << "estimated clusters:\n";
     cout << mu.format(CleanFmt) << "\n";
+
+    Eigen::ArrayXXf data_allf = data_all.cast<float>();
+    Eigen::ArrayXXf muf = Eigen::ArrayXXf::Zero(K, n_features);
+    Eigen::ArrayXf zf = Eigen::ArrayXf::Zero(n_examples_ttl);
+
+    cout << "running kmeans with template parameter 'float' ... \n";
+
+    KMeansRex::KMeansRex<float>(
+        data_allf.data(),
+        n_examples_ttl, n_features, K,
+        n_iters, seed, "plusplus",
+        muf.data(),
+        zf.data()
+    );
+
+    cout << "done.\n";
+
+    cout << "estimated clusters:\n";
+    cout << muf.format(CleanFmt) << "\n";
 
 }
