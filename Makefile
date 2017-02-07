@@ -6,10 +6,12 @@ ARCH := $(shell getconf LONG_BIT)
 # Find header files for the Eigen matrix library
 # Usually in a standard location like /usr/include/eigen3/
 # Change manually here if needed
-EIGEN_INCLUDE := $(shell pkg-config --cflags eigen3)
+ifndef EIGEN_INCLUDE
+	EIGEN_INCLUDE := $(shell pkg-config --cflags eigen3)
+endif
 
 # Remove nasty Eigen warnings when compiling
-CXX_EIGEN_FLAGS := -Wno-ignored-attributes -Wno-misleading-indentation -Wno-deprecated-declarations
+# CXX_EIGEN_FLAGS := -Wno-ignored-attributes -Wno-misleading-indentation -Wno-deprecated-declarations
 CXX_FLAGS := -fPIC -shared -O3 -DNDEBUG $(CXX_EIGEN_FLAGS)
 
 CWD = $(shell pwd)

@@ -7,7 +7,7 @@ using namespace std;
 
 IOFormat CleanFmt(3, 0, " ", "\n", "[", "]");
 
-int main() {
+int main(int, char*[]) {
     int K = 3;
     int n_examples_per_cluster = 25;
     int n_features = 2;

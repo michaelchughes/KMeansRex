@@ -52,6 +52,15 @@ void set_seed( int seed ) {
   init_genrand( seed );
 }
 
+/*
+ * Return random integers from `low` (inclusive) to `high` (exclusive).
+ */
+int randint(int low, int high) {
+    double r = ((high - low)) * genrand_double();
+    int rint = (int) r; // [0,1) -> 0, [1,2) -> 1, etc
+    return rint + low;
+}
+
 int discrete_rand( Vec &p ) {
     double total = p.sum();
     int K = (int) p.size();
@@ -111,26 +120,23 @@ void sampleRowsPlusPlus( ExtMat &X, ExtMat &Mu ) {
         // and leave all remaining rows of Mu uninitialized.
         K = N;
     }
-    Vec ChosenIDs = Vec::Ones(K);
-    int choice = discrete_rand(ChosenIDs);
+    int choice = randint(0, N); 
     Mu.row(0) = X.row( choice );
-    ChosenIDs[0] = choice;
     Vec minDist(N);
     Vec curDist(N);
     for (int kk=1; kk<K; kk++) {
-        curDist = (X.rowwise() - Mu.row(kk-1)).square().rowwise().sum().sqrt();
+        curDist = (X.rowwise() - Mu.row(kk-1)).square().rowwise().sum();
         if (kk==1) {
             minDist = curDist;
         } else {
             minDist = curDist.min( minDist );
         }      
         choice = discrete_rand( minDist );
-        ChosenIDs[kk] = choice;
         Mu.row(kk) = X.row( choice );
     }       
 }
 
-void init_Mu( ExtMat &X, ExtMat &Mu, char* initname ) {		  
+void init_Mu( ExtMat &X, ExtMat &Mu, const char* initname ) {		  
     if (string(initname) == "random") {
         sampleRowsRandom( X, Mu );
     } else if (string(initname) == "plusplus") {

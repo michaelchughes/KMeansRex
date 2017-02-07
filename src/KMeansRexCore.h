@@ -18,6 +18,6 @@ void set_seed( int seed );
 void select_without_replacement( int N, int K, Vec &chosenIDs);
 int discrete_rand( Vec &p );
 
-void init_Mu( ExtMat &X, ExtMat &Mu, char* initname );
+void init_Mu( ExtMat &X, ExtMat &Mu, const char* initname );
 void run_lloyd( ExtMat &X, ExtMat &Mu, ExtMat &Z, int Niter);
 
