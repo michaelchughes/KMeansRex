@@ -12,7 +12,7 @@ endif
 
 # Remove nasty Eigen warnings when compiling
 # CXX_EIGEN_FLAGS := -Wno-ignored-attributes -Wno-misleading-indentation -Wno-deprecated-declarations
-CXX_FLAGS := -fPIC -shared -O3 -DNDEBUG $(CXX_EIGEN_FLAGS)
+CXX_FLAGS := -fPIC -shared -O3 -march=native -fopenmp -DNDEBUG $(CXX_EIGEN_FLAGS)
 
 CWD = $(shell pwd)
 LIBFILE := $(CWD)/lib/libkmeansrex$(ARCH).so
