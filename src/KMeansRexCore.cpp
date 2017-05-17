@@ -35,7 +35,7 @@ Date:   2 April 2013
 #include <iostream>
 #include "KMeansRexCoreInterface.h"
 #include "mersenneTwister2002.c"
-#include "Eigen/Dense"
+#include <eigen3/Eigen/Dense>
 
 using namespace Eigen;
 using namespace std;
@@ -145,8 +145,9 @@ void init_Mu( ExtMat &X, ExtMat &Mu, const char* initname ) {
 }
 
 // ======================================================= Update Assignments Z
-void pairwise_distance( ExtMat &X, ExtMat &Mu, Mat &Dist ) {
-    int N = X.rows();
+void pairwise_distance( ExtMat &X, ExtMat &Mu, Mat &Dist ) 
+{
+    //int N = X.rows();
     int D = X.cols();
     int K = Mu.rows();
 
@@ -192,12 +193,12 @@ void calc_Mu( ExtMat &X, ExtMat &Mu, ExtMat &Z) {
 
 // ======================================================= Overall Lloyd Alg.
 void run_lloyd( ExtMat &X, ExtMat &Mu, ExtMat &Z, int Niter )  {
-    double prevDist,totalDist = 0;
+    double prevDist  = 0;
+    double totalDist = 0;
     Mat Dist = Mat::Zero( X.rows(), Mu.rows() );  
 
     for (int iter=0; iter<Niter; iter++) {
         totalDist = assignClosest( X, Mu, Z, Dist );
-        calc_Mu( X, Mu, Z );
         if (prevDist == totalDist) {
             break;
         }

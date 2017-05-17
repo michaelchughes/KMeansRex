@@ -1,6 +1,8 @@
 /* KMeansRexCore.h
    Provides header file function declarations for Matlab MEX compilation.
 */
+#ifndef KMEANSREX_CORE_H
+#define KMEANSREX_CORE_H
 
 #include "Eigen/Dense"
 #include <iostream>
@@ -20,4 +22,4 @@ int discrete_rand( Vec &p );
 
 void init_Mu( ExtMat &X, ExtMat &Mu, const char* initname );
 void run_lloyd( ExtMat &X, ExtMat &Mu, ExtMat &Z, int Niter);
-
+#endif
